@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<script src="require.js"></script>
+<body>
+
+
+<script> 
+requirejs.config({
+            appDir: ".",
+            baseUrl: "js",
+            paths: { 
+                'aws': ['https://sdk.amazonaws.com/js/aws-sdk-2.3.10']
+            }
+        });
+
+        
+    //--------------------------------------------------------------------------
+    //get a batch of events
+     require(['aws'],function submitAssignment() {
+         
+        console.log("getting grade")
+
+        AWS.config.update({
+            accessKeyId: "AKIAJT3TC3QHNL3SLTBA",
+            secretAccessKey: "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",
+            "region": "us-east-1"   
+        });
+
+
+        var docClient = new AWS.DynamoDB.DocumentClient();
+        var url = new URL(window.location)
+        var a = url.searchParams.get('AssignmentText');
+        var b = url.searchParams.get('assignmentNumber');
+        console.log(b);
+        console.log(a);
+
+        var params = {
+            TableName: "assignments",
+            Item: {
+                'assignmentId': '12346',
+                'grammarLevel': 'medievil',
+                'assignemnt': a,
+                'assignmentNumber': b,
+                'assignmentSubject': 'history',
+                'studentId': '00001'
+            }
+        };
+
+    docClient.put(params, function (err, data) {
+      if (err) console.log(err, err.stack); // an error occurred
+      else {
+        console.log(data);
+      }
+    });
+});
+    </script>
+<h1>Adaptive vocabulary writer</h1>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<script src="require.js"></script>
+<body>
+
+
+<script> 
+requirejs.config({
+            appDir: ".",
+            baseUrl: "js",
+            paths: { 
+                'aws': ['https://sdk.amazonaws.com/js/aws-sdk-2.3.10']
+            }
+});
+
+        
+//--------------------------------------------------------------------------
+//get an assigment from db
+require(['aws'],function getGrade() {
+         
+        console.log("getting grade")
+
+        AWS.config.update({
+            accessKeyId: "AKIAJT3TC3QHNL3SLTBA",
+            secretAccessKey: "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",
+            "region": "us-east-1"   
+        });
+
+
+        var docClient = new AWS.DynamoDB.DocumentClient();
+
+        var params = {
+          TableName: "assignments",
+          key: {'assignmentSubject':"history"}
+        };
+
+    docClient.scan(params, function (err, data) {
+      if (err) console.log(err, err.stack); // an error occurred
+      else {
+        console.log(data);
+      }
+    });
+});
+    
+require(['aws'],function getDictionary() {
+         
+        console.log("getting grade")
+
+        AWS.config.update({
+            accessKeyId: "AKIAJT3TC3QHNL3SLTBA",
+            secretAccessKey: "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",
+            "region": "us-east-1"   
+        });
+
+
+        var docClient = new AWS.DynamoDB.DocumentClient();
+
+        var params = {
+          TableName: "HistoryDictionary",
+          key: {'dicitonaryId':"medeivil"}
+        };
+
+    docClient.scan(params, function (err, data) {
+      if (err) console.log(err, err.stack); // an error occurred
+      else {
+        console.log(data);
+      }
+    });
+});
+</script>
+<h1>Adaptive vocabulary reader</h1> 
+</body>
+</html>
